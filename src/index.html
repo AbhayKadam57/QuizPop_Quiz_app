@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuiZApp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <nav>
+          <div id="logo">
+            <h1>QuizApp</h1>
+          </div>
+        </nav>
+      </header>
+
+      <article>
+        <section>
+          <h1>
+            Ready to test your knowledge? Take our fun and challenging quizzes
+            now!
+          </h1>
+
+          <div class="topics">
+            <h2>Choose Your Topic And Get Started With Exciting quiz!!</h2>
+            <ul>
+              <li class="topic">
+                <a href="#">Music</a>
+              </li>
+              <li class="topic">
+                <a href="#">Moder Art</a>
+              </li>
+              <li class="topic">
+                <a href="#">Coding</a>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section>
+          <div class="progressbar">
+            <p>Question 1/10</p>
+          </div>
+          <div class="questionBox">
+            <div class="selectedTopic">
+              <small>Music</small>
+            </div>
+            <h2>What is the capital of India?</h2>
+            <div class="options">
+              <ul>
+                <li>
+                  <i class="fa-solid fa-circle-check"></i>
+                  <a>Option 1</a>
+                </li>
+                <li>
+                  <i class="fa-solid fa-circle-check"></i>
+                  <a>Option 1</a>
+                </li>
+                <li>
+                  <i class="fa-solid fa-circle-check"></i>
+                  <a>Option 1</a>
+                </li>
+                <li>
+                  <i class="fa-solid fa-circle-check"></i>
+                  <a>Option 1</a>
+                </li>
+              </ul>
+            </div>
+            <div class="buttons">
+              <button id="Previous">Previous</button>
+              <button id="next">Next</button>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="resultModal">
+            <i class="fa-solid fa-circle-check"></i>
+            <h2>Congratulations! You have completed the quiz !!!</h2>
+            <div class="resultSummary">
+              <div class="result score">
+                <h2>Score: 8 / 10</h2>
+              </div>
+              <div class="result correct">
+                <i class="fa-solid fa-circle-check"></i>
+                <p>Correct Answers:</p>
+              </div>
+              <div class="result incorrect">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <p>Incorrect Answers:</p>
+              </div>
+            </div>
+            <div class="buttons">
+              <button>Return to Quiz Home</button>
+            </div>
+          </div>
+        </section>
+      </article>
+    </main>
+    <script type="module" src="js/index.js"></script>
+  </body>
+</html>
