@@ -32,9 +32,13 @@ const TopicsDone = JSON.parse(localStorage.getItem("result"))?.topicsDone || [];
 
 const ReturnHome = document.querySelector("#returnHome");
 
+const QuizStart = localStorage.getItem("quizStar");
+
 console.log(ReturnHome);
 
 console.log(TopicsDone);
+
+// console.log(isQuizStart);
 
 let currentTopic;
 
@@ -58,16 +62,18 @@ class QuizTopic {
   showQuestion = () => {
     let CurrentQuestion = this.questionSet[this.currentQuestion];
 
-    Question.innerText = CurrentQuestion.question;
+    CurrentTopicTag.innerText = this.topic;
 
-    if (!this.topicsDone.includes(this.topic)) {
-      this.topicsDone.push(this.topic);
-    }
+    Question.innerText = CurrentQuestion.question;
 
     if (this.isAttempted.includes(this.currentQuestion)) {
       Question.innerHTML += ` <i class="fa-solid fa-clipboard-check attempted"><span>Attempted</span></i>`;
     } else {
       Question.innerHTML += ` <i class="fa-solid fa-clipboard-question missed"><span>Not Attempted</span></i>`;
+    }
+
+    if (!this.topicsDone.includes(this.topic)) {
+      this.topicsDone.push(this.topic);
     }
 
     Options.forEach((item, index) => {
@@ -82,6 +88,11 @@ class QuizTopic {
   };
 
   NextQuestion = () => {
+    document.querySelector(
+      ".warning"
+    ).innerHTML = `Please Attempt All the questions to get full result...`;
+
+    document.querySelector(".warning").style.display = "none";
     OptionsList.forEach((item, i) => {
       item.classList.remove("selected");
     });
@@ -109,6 +120,16 @@ class QuizTopic {
     console.log(CurrentAnswer);
     console.log(selectedAnswer);
 
+    if (this.isAttempted.includes(this.currentQuestion)) {
+      document.querySelector(
+        ".warning"
+      ).innerHTML = `<p>Already Answered the question can not modify !</p>`;
+
+      document.querySelector(".warning").style.display = "flex";
+    } else {
+      document.querySelector(".warning").style.display = "none";
+    }
+
     if (
       CurrentAnswer === selectedAnswer &&
       !this.isAttempted.includes(this.currentQuestion)
@@ -116,6 +137,7 @@ class QuizTopic {
       this.score += 1;
       this.correctAnswer += 1;
       this.isAttempted.push(this.currentQuestion);
+
       this.selectedAnswers.push({
         id: this.currentQuestion,
         answer: selectedAnswer,
@@ -126,6 +148,7 @@ class QuizTopic {
     ) {
       this.incorrectAnswer += 1;
       this.isAttempted.push(this.currentQuestion);
+
       this.selectedAnswers.push({
         id: this.currentQuestion,
         answer: selectedAnswer,
@@ -133,6 +156,8 @@ class QuizTopic {
     }
 
     if (this.isAttempted.length === this.questionSet.length) {
+      localStorage.clear();
+
       this.completed = true;
 
       localStorage.setItem(
@@ -152,7 +177,7 @@ class QuizTopic {
 
       const ResultData = JSON.parse(localStorage.getItem("result"));
 
-      Score.innerText = `${ResultData.score} /${this.questionSet.length}`;
+      Score.innerText = `Score: ${ResultData.score} /${this.questionSet.length}`;
 
       TotalCorrect.innerText = `Correct Answers: ${ResultData.correctAnswers}`;
 
@@ -196,8 +221,11 @@ const topics = document.querySelectorAll(".topic");
 
 topics.forEach((topic, index) => {
   topic.addEventListener("click", (e) => {
+    localStorage.setItem("quizStart", "true");
+
     console.log("hello");
     let selectedTopic = e.target.innerText.toLowerCase();
+    localStorage.setItem("currentTopic", selectedTopic);
 
     CurrentTopicTag.innerText = selectedTopic;
     currentTopic = new QuizTopic(selectedTopic, data[`${selectedTopic}`]);
@@ -251,5 +279,44 @@ ReturnHome?.addEventListener("click", () => {
   QuestionPage.style.display = "none";
   HomePage.style.display = "flex";
 
+  window.location.reload();
+});
+
+// Rest Quiz data after Reload/Refresh Page
+
+window.addEventListener("load", () => {
+  QuestionPage.style.display = "flex";
+  HomePage.style.display = "none";
+
+  let topic = localStorage.getItem("currentTopic");
+
+  let CurrentTopic = topics[topics.length - 1];
+
+  let quizOn = localStorage.getItem("quizStart");
+
+  console.log(CurrentTopic);
+
+  if (quizOn === "true") {
+    currentTopic = new QuizTopic(topic, data[topic]);
+
+    console.log(currentTopic);
+
+    currentTopic.showQuestion();
+  } else {
+    QuestionPage.style.display = "none";
+    HomePage.style.display = "flex";
+  }
+});
+
+// Reset The quiz
+
+let topicSaved = JSON.parse(localStorage?.getItem("result")).topicsDone;
+
+console.log(topicSaved);
+
+let ResetBtn = document?.querySelector(".topics h3 span");
+
+ResetBtn.addEventListener("click", () => {
+  localStorage.clear();
   window.location.reload();
 });

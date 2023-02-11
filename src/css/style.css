@@ -72,11 +72,29 @@ section h1 {
   gap: 1em;
   padding: 1em;
   height: 100%;
+
 }
 
 .topics h2 {
 
   color: #BE3455;
+}
+
+.topics h3 {
+
+  margin-top: 5em;
+  color: #333232;
+
+}
+
+.topics h3 span {
+
+
+  color: #fff;
+  background-color: #BE3455;
+  padding: 2px 5px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .topics ul {
@@ -87,6 +105,8 @@ section h1 {
   list-style-type: none;
   width: 100%;
   gap: 2em;
+  flex-wrap: wrap;
+  padding: 1em;
 }
 
 .topic {
@@ -466,6 +486,15 @@ section:nth-of-type(3) {
 
     font-size: 0.8em;
     min-width: 10em;
+  }
+
+  .topics h3 {
+
+    margin-top: 2em;
+    color: #333232;
+    font-size: 0.8em;
+
+
   }
 
   .questionBox {
