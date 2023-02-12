@@ -1,4 +1,8 @@
+//data is imported from the dataset.json:
+
 import data from "../dataset.json";
+
+//All the Tags and section are selected as per bellow:
 
 const HomePage = document.querySelector("section:nth-of-type(1)");
 
@@ -32,17 +36,13 @@ const TopicsDone = JSON.parse(localStorage.getItem("result"))?.topicsDone || [];
 
 const ReturnHome = document.querySelector("#returnHome");
 
-const QuizStart = localStorage.getItem("quizStar");
+const ResultData = JSON.parse(localStorage?.getItem("result"));
 
-console.log(ReturnHome);
-
-console.log(TopicsDone);
-
-// console.log(isQuizStart);
+//Variable is declared for storing the current topic's quiz data
 
 let currentTopic;
 
-// class of Topic
+// class of Topic is declared
 
 class QuizTopic {
   constructor(topic, questionSet) {
@@ -54,10 +54,12 @@ class QuizTopic {
     this.isAttempted = [];
     this.completed = false;
     this.currentQuestion = 0;
-    this.selectedAnswers = [];
+    // this.selectedAnswers = [];
     this.topicsDone =
       JSON.parse(localStorage.getItem("result"))?.topicsDone || [];
   }
+
+  //ShowQuestion method displays the question on screen after selecting a topic
 
   showQuestion = () => {
     let CurrentQuestion = this.questionSet[this.currentQuestion];
@@ -66,26 +68,35 @@ class QuizTopic {
 
     Question.innerText = CurrentQuestion.question;
 
+    //Following code will check the status of question, whether its an attempted or not
+
     if (this.isAttempted.includes(this.currentQuestion)) {
       Question.innerHTML += ` <i class="fa-solid fa-clipboard-check attempted"><span>Attempted</span></i>`;
     } else {
       Question.innerHTML += ` <i class="fa-solid fa-clipboard-question missed"><span>Not Attempted</span></i>`;
     }
 
+    //Following code will push selected topic in topicsDone property of class
+
     if (!this.topicsDone.includes(this.topic)) {
       this.topicsDone.push(this.topic);
     }
 
+    //Following code displays options on screen.
     Options.forEach((item, index) => {
       item.innerText = CurrentQuestion.options[index];
     });
 
+    //Following code displays current question number
     QuestionNumber.innerText = `${this.currentQuestion + 1}/${
       this.questionSet.length
     }`;
 
+    //Following code displays progress bar
     ProgressBar.style.width = `${(this.currentQuestion + 1) * 10}%`;
   };
+
+  //NextQuestion method handles the display of next question and check whether question is attempted or not
 
   NextQuestion = () => {
     document.querySelector(
@@ -104,6 +115,7 @@ class QuizTopic {
     currentTopic.showQuestion();
   };
 
+  //PreviousQuestion method handles the display of previous question
   PreviousQuestion = () => {
     this.currentQuestion > 0
       ? (this.currentQuestion -= 1)
@@ -112,13 +124,12 @@ class QuizTopic {
     currentTopic.showQuestion();
   };
 
+  //The CheckAnswer method handles checking questions, a mechanism for saving the results to local storage, displaying the results on the screen, and verifying that all questions have been attempted.
+
   checkAnswer = (selectedAnswer) => {
     let CurrentQuestion = this.questionSet[this.currentQuestion];
 
     let CurrentAnswer = CurrentQuestion.answer;
-
-    console.log(CurrentAnswer);
-    console.log(selectedAnswer);
 
     if (this.isAttempted.includes(this.currentQuestion)) {
       document.querySelector(
@@ -138,10 +149,10 @@ class QuizTopic {
       this.correctAnswer += 1;
       this.isAttempted.push(this.currentQuestion);
 
-      this.selectedAnswers.push({
-        id: this.currentQuestion,
-        answer: selectedAnswer,
-      });
+      // this.selectedAnswers.push({
+      //   id: this.currentQuestion,
+      //   answer: selectedAnswer,
+      // });
     } else if (
       CurrentAnswer !== selectedAnswer &&
       !this.isAttempted.includes(this.currentQuestion)
@@ -149,14 +160,14 @@ class QuizTopic {
       this.incorrectAnswer += 1;
       this.isAttempted.push(this.currentQuestion);
 
-      this.selectedAnswers.push({
-        id: this.currentQuestion,
-        answer: selectedAnswer,
-      });
+      // this.selectedAnswers.push({
+      //   id: this.currentQuestion,
+      //   answer: selectedAnswer,
+      // });
     }
 
     if (this.isAttempted.length === this.questionSet.length) {
-      localStorage.clear();
+      // localStorage.clear();
 
       this.completed = true;
 
@@ -169,6 +180,8 @@ class QuizTopic {
           topicsDone: this.topicsDone || [],
         })
       );
+
+      localStorage.setItem("quizCompleted", "true");
     }
 
     if (this.completed === true) {
@@ -193,11 +206,9 @@ class QuizTopic {
   };
 }
 
-// Topic List creation
+// Following code creates all the topics provide by dataset
 
 for (let topic in data) {
-  console.log(topic);
-
   let li = document.createElement("li");
 
   if (!TopicsDone.includes(topic)) {
@@ -215,7 +226,7 @@ for (let topic in data) {
   document.querySelector(".topics ul").append(li);
 }
 
-// Topic selection
+//The code below handles the mechanism of displaying the question on the screen after selecting a topic from the list
 
 const topics = document.querySelectorAll(".topic");
 
@@ -223,7 +234,6 @@ topics.forEach((topic, index) => {
   topic.addEventListener("click", (e) => {
     localStorage.setItem("quizStart", "true");
 
-    console.log("hello");
     let selectedTopic = e.target.innerText.toLowerCase();
     localStorage.setItem("currentTopic", selectedTopic);
 
@@ -237,21 +247,17 @@ topics.forEach((topic, index) => {
   });
 });
 
-//Question Change mechanism
+//Following code handles the mechanism after pressing Next and previous buttons
 
 NextBtn.addEventListener("click", (e) => {
   currentTopic.NextQuestion();
-
-  console.log(currentTopic);
 });
 
 PreviousBtn.addEventListener("click", (e) => {
   currentTopic.PreviousQuestion();
-
-  console.log(currentTopic);
 });
 
-//Check Answer
+//Following code handles the mechanism to check answers after selecting one of the option from given option list
 
 OptionsList.forEach((item, index) => {
   item.addEventListener("click", (e) => {
@@ -270,11 +276,14 @@ OptionsList.forEach((item, index) => {
     });
 
     currentTopic.checkAnswer(item.lastElementChild.innerText);
-    console.log(item.lastElementChild.innerText);
   });
 });
 
+//Following code handles mechanism to return the User to home screen.
+
 ReturnHome?.addEventListener("click", () => {
+  localStorage.removeItem("quizCompleted");
+  localStorage.removeItem("quizStart");
   ResultPage.style.display = "none";
   QuestionPage.style.display = "none";
   HomePage.style.display = "flex";
@@ -282,7 +291,7 @@ ReturnHome?.addEventListener("click", () => {
   window.location.reload();
 });
 
-// Rest Quiz data after Reload/Refresh Page
+// Following code handles mechanism to show the quiz data even after refreshing current quiz session
 
 window.addEventListener("load", () => {
   QuestionPage.style.display = "flex";
@@ -294,27 +303,37 @@ window.addEventListener("load", () => {
 
   let quizOn = localStorage.getItem("quizStart");
 
-  console.log(CurrentTopic);
-
   if (quizOn === "true") {
     currentTopic = new QuizTopic(topic, data[topic]);
-
-    console.log(currentTopic);
 
     currentTopic.showQuestion();
   } else {
     QuestionPage.style.display = "none";
     HomePage.style.display = "flex";
   }
+
+  if (localStorage.getItem("quizCompleted") === "true") {
+    Score.innerText = `Score: ${ResultData.score} /${currentTopic?.questionSet.length}`;
+
+    TotalCorrect.innerText = `Correct Answers: ${ResultData.correctAnswers}`;
+
+    TotalInCorrect.innerText = `Incorrect Answers: ${ResultData.incorrect}`;
+
+    ResultPage.style.display = "flex";
+  }
 });
 
-// Reset The quiz
+// Following code handles the mechanism to activate quiz topics after attempting all given topics.
 
 let topicSaved = JSON.parse(localStorage?.getItem("result")).topicsDone;
 
-console.log(topicSaved);
+let ResetBtn = document.querySelector(".topics h3 span");
 
-let ResetBtn = document?.querySelector(".topics h3 span");
+let ResetMessage = document.querySelector(".topics h3");
+
+if (topicSaved.length === Object.keys(data).length) {
+  ResetMessage.style.display = "flex";
+}
 
 ResetBtn.addEventListener("click", () => {
   localStorage.clear();
