@@ -50,7 +50,7 @@ https://user-images.githubusercontent.com/93931081/218331168-64f5a0fe-3c66-4a37-
 1. Clone the repo:
 
 ```
-  git clone
+  git clone https://github.com/AbhayKadam57/QuizPop_Quiz_app.git
 ```
 
 2. Install the project's packages with the following commands:
