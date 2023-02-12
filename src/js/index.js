@@ -190,11 +190,13 @@ class QuizTopic {
 
       const ResultData = JSON.parse(localStorage.getItem("result"));
 
-      Score.innerText = `Score: ${ResultData.score} /${this.questionSet.length}`;
+      // Score.innerText = `Score: ${ResultData.score} /${this.questionSet.length}`;
 
-      TotalCorrect.innerText = `Correct Answers: ${ResultData.correctAnswers}`;
+      // TotalCorrect.innerText = `Correct Answers: ${ResultData.correctAnswers}`;
 
-      TotalInCorrect.innerText = `Incorrect Answers: ${ResultData.incorrect}`;
+      // TotalInCorrect.innerText = `Incorrect Answers: ${ResultData.incorrect}`;
+
+      showResult(ResultData, currentTopic);
     }
 
     if (
@@ -205,6 +207,16 @@ class QuizTopic {
     }
   };
 }
+
+//Following code will show result on screen
+
+const showResult = (ResultData, currentTopic) => {
+  Score.innerText = `Score: ${ResultData.score} /${currentTopic?.questionSet.length}`;
+
+  TotalCorrect.innerText = `Correct Answers: ${ResultData.correctAnswers}`;
+
+  TotalInCorrect.innerText = `Incorrect Answers: ${ResultData.incorrect}`;
+};
 
 // Following code creates all the topics provide by dataset
 
@@ -313,11 +325,13 @@ window.addEventListener("load", () => {
   }
 
   if (localStorage.getItem("quizCompleted") === "true") {
-    Score.innerText = `Score: ${ResultData.score} /${currentTopic?.questionSet.length}`;
+    // Score.innerText = `Score: ${ResultData.score} /${currentTopic?.questionSet.length}`;
 
-    TotalCorrect.innerText = `Correct Answers: ${ResultData.correctAnswers}`;
+    // TotalCorrect.innerText = `Correct Answers: ${ResultData.correctAnswers}`;
 
-    TotalInCorrect.innerText = `Incorrect Answers: ${ResultData.incorrect}`;
+    // TotalInCorrect.innerText = `Incorrect Answers: ${ResultData.incorrect}`;
+
+    showResult(ResultData, currentTopic);
 
     ResultPage.style.display = "flex";
   }
