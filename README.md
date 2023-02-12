@@ -1,3 +1,7 @@
+![HomePage](https://user-images.githubusercontent.com/93931081/218331108-c3425d5f-dfa4-45a7-9fd0-246c21a776ce.jpg)
+
+
+
 <h3 align="center">Quiz Pop - Quiz Application</h3>
 
 <p align="center">This is the KnowledgeHut/Upgrade Hackthon challenge (HTML, CSS3, Javascript). This repository contains a quiz web application built using HTML, CSS, and JavaScript. This website is designed for trivia games with a start area, a question area, and a results area where you can play exciting trivia questions on the topics provided.</p>
@@ -28,6 +32,16 @@ For this project, it was important to use local storage to store the results and
 ## 🎈 Usage or Demo <a name="usage"></a>
 
 Please watch the following demo video for usage of the website:
+
+Please click on below link to see live website:
+[Live Website](http://quizpopapp.surge.sh/)
+
+OR 
+
+Watch Demo Video
+
+https://user-images.githubusercontent.com/93931081/218331168-64f5a0fe-3c66-4a37-ad3f-3f02ecbd4105.mp4
+
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
