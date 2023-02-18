@@ -34,7 +34,7 @@ For this project, it was important to use local storage to store the results and
 Please watch the following demo video for usage of the website:
 
 Please click on below link to see live website:
-[Live Website](http://quizpopapp.surge.sh/)
+[Live Website](https://profound-sherbet-493891.netlify.app/)
 
 OR 
 
